@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Risk Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Heart Risk Prediction</h1>
+            <p>Enter patient details to assess heart disease risk.</p>
+        </header>
+
+        {% if error %}
+            <div class="alert error">{{ error }}</div>
+        {% endif %}
+
+        <main>
+            <form id="predictionForm">
+                <div id="inputsContainer" class="grid-container">
+                    <!-- Inputs will be generated here by JS based on columns -->
+                </div>
+                <button type="submit" id="predictBtn">Predict Risk</button>
+            </form>
+
+            <div id="result" class="result-container hidden">
+                <h2>Prediction Result</h2>
+                <div id="predictionText" class="prediction-text"></div>
+                <div class="probability-bar-container">
+                    <div id="probabilityBar" class="probability-bar"></div>
+                </div>
+                <p id="probabilityValue" class="probability-value"></p>
+                <p class="disclaimer">
+                    <strong>Note:</strong> This probability indicates the model's confidence in the positive class (Heart Disease). 
+                    Higher percentage means higher estimated risk. This is for educational purposes only and not a medical diagnosis.
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Inject columns from Flask to JS -->
+    <script>
+        const COLUMNS = {{ columns | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
